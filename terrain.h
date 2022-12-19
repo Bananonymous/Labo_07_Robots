@@ -12,12 +12,12 @@
 class Terrain {
 
 public:
-    void entreeUtilisateur(int X, int Y);
-    static int  getLargeur()  const;
-    static int  getHauteur()  const;
+     void entreeUtilisateur();
+     int  getLargeur()  const;
+     int  getHauteur()  const;
 private:
-    double largeur = 10;
-    double hauteur = 10;
+    int largeur = 10;
+    int hauteur = 10;
 };
 
 

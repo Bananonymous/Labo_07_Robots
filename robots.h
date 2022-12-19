@@ -6,14 +6,20 @@
 #define LABO_07_ROBOTS_ROBOTS_H
 
 
-
+#include <vector>
+#include <string>
 
 class Robot {
 public:
-    void setCoords(double x, double y);
-    void deplacerRobot(int sens);
+    Robot(int id, int X, int Y);
+    void moveRobot(int direction, int LIMITXMAX, int LIMITYMAX);
+    bool kill (std::vector<Robot>& vecRobot) const;
+    void death(int killerID);
+    bool isDead()         const;
+    int  getKiller()      const;
     int  getCoordX()      const;
     int  getCoordY()      const;
+    int  getID()          const;
 
 private:
     double coordX = 10;

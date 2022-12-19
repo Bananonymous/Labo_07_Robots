@@ -3,14 +3,14 @@
 //
 
 #include "terrain.h"
+
 using namespace std;
 
-void entreeUtilisateur(int X, int Y) {
-    bool erreurFlux;
+void Terrain::entreeUtilisateur() {
+    int       X,Y;
+    bool      erreurFlux;
     const int VALEURMIN = 10;
     const int VALEURMAX = 10000;
-    int largeur, hauteur;
-
     do {
         erreurFlux = false;
         cout << "largeur [10..1000]  :" << endl;
@@ -40,17 +40,16 @@ void entreeUtilisateur(int X, int Y) {
             erreurFlux = true;
 
         }
-        }while (erreurFlux);
-        largeur = X;
-        hauteur = Y;
+    }while (erreurFlux);
+    largeur = X;
+    hauteur = Y;
 
+}
 
-    }
-
-int  Terrain::getHauteur()  const; {
+int  Terrain::getHauteur() const{
     return hauteur;
 }
 
-int Terrain::getLargeur() {
+int Terrain::getLargeur() const{
     return largeur;
 }

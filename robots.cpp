@@ -3,15 +3,15 @@
 //
 
 #include "robots.h"
-#include "terrain.h"
 
-#include <iostream>
 using namespace std;
 
-void Robot::setCoords(double x, double y){
-    coordX  = x;
-    coordY  = y;
-};
+
+Robot::Robot(int id, int X, int Y) {
+    ID     = id;
+    coordX = X;
+    coordY = Y;
+}
 
 int Robot::getCoordX() const {
     return coordX;
@@ -21,37 +21,69 @@ int Robot::getCoordY() const {
     return coordY;
 }
 
+int Robot::getID() const {
+    return ID;
+}
+
+void Robot::death(const int killerID){
+    coordX = 0;
+    coordY = 0;
+    dead = true;
+    killer = killerID;
+}
+
+bool Robot::isDead() const {
+    return dead;
+}
+
+int Robot::getKiller() const{
+    return killer;
+}
 
 enum class Direction {UP, DOWN, LEFT, RIGHT};
-int limiteXMax = Terrain::getLongueur();
-int limiteYMax = Terrain::getHauteur();
-int limiteXMin,limiteYMin = 0;
 
 
-void Robot::deplacerRobot(int sens) {
-    switch (sens) {
-        case int(Direction::UP) :
-            if(coordY-1 > limiteYMin)
-                coordY--;
-            break;
+void Robot::moveRobot(int direction, int LIMITXMAX, int LIMITYMAX) {
+    const int LIMITXMIN = 0;
+    const int LIMITYMIN = 0;
 
-        case int(Direction::DOWN) :
-            if(coordY+1 > limiteYMax)
-                coordY++;
-            break;
+    if(!dead) {
+        switch (direction) {
+            case int(Direction::UP) :
+                if (coordY - 1 > LIMITYMIN)
+                    coordY--;
+                break;
 
-        case int(Direction::LEFT) :
-            if(coordX-1 > limiteXMin)
-                coordX--;
-            break;
+            case int(Direction::DOWN) :
+                if (coordY + 1 < LIMITYMAX)
+                    coordY++;
+                break;
 
-        case int(Direction::RIGHT) :
-            if(coordX+1 > limiteXMax)
-                coordX++;
-            break;
+            case int(Direction::LEFT) :
+                if (coordX - 1 > LIMITXMIN)
+                    coordX--;
+                break;
+
+            case int(Direction::RIGHT) :
+                if (coordX + 1 < LIMITXMAX)
+                    coordX++;
+                break;
+        }
+
     }
 
+}
 
-
-
+bool Robot::kill(std::vector<Robot> &vecRobot) const {
+    for (Robot& robot2 : vecRobot) {
+        if ((ID != robot2.getID()) and !(robot2.isDead())) {
+            if (coordX == robot2.getCoordX()) {
+                if (coordY == robot2.getCoordY()) {
+                    robot2.death(ID);
+                    return true;
+                }
+            }
+        }
+    }
+    return false;
 }
